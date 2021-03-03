@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/clouds_39"
             android:layout_gravity="center_horizontal"
+            android:id="@+id/moodIcon"
             />
 
         <TextView
