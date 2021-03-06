@@ -1,10 +1,15 @@
 package com.moodnote;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,13 +20,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class Fragment4 extends Fragment {
-    RecyclerView recyclerView;
-    PostItemAdapter adapter;
+    private static final String TAG = "Fragment4";
 
-    Context context;
+    private RecyclerView recyclerView;
+    private PostItemAdapter adapter;
 
-    MoodInfoDao moodInfoDao;
-    PostitDao postitDao;
+    private Context context;
+
+    private MoodInfoDao moodInfoDao;
+    private PostitDao postitDao;
+
+    MoodInfo moodInfo;
 
     Fragment4(MoodInfoDao moodInfoDao, PostitDao postitDao) {
         this.moodInfoDao = moodInfoDao;
@@ -49,6 +58,11 @@ public class Fragment4 extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_4, container, false);
 
+        if (getArguments() != null) {
+            long moodId = getArguments().getLong("moodId");
+            moodInfo = moodInfoDao.selectById(moodId);
+        }
+
         initUI(rootView);
 
         return rootView;
@@ -56,18 +70,40 @@ public class Fragment4 extends Fragment {
 
     private void initUI(ViewGroup rootView) {
 
+        setMoodIconAndName(rootView);
+
         recyclerView = rootView.findViewById(R.id.recyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         adapter = new PostItemAdapter(context, moodInfoDao);
 
-        ArrayList<Postit> postits = postitDao.selectAll();
+        try {
+            ArrayList<Postit> postits = postitDao.selectByMood(moodInfo.getId());
 
-        for (Postit postit : postits) {
-            adapter.addItem(postit);
+            for (Postit postit : postits) {
+                adapter.addItem(postit);
+            }
+        } catch (PostitNotFoundException e) {
+            Log.d(TAG, e.getMessage());
         }
 
         recyclerView.setAdapter(adapter);
+    }
+
+    void setMoodIconAndName(ViewGroup rootView) {
+        setMoodIcon(rootView.findViewById(R.id.moodIcon));
+        setMoodName(rootView.findViewById(R.id.mood));
+    }
+
+    void setMoodIcon(ImageView v) {
+        String iconStr = moodInfo.getIcon() + "_25";
+        int icon = context.getResources().getIdentifier(iconStr, "drawable", context.getPackageName());
+
+        v.setImageResource(icon);
+    }
+
+    void setMoodName(TextView v) {
+        v.setText(moodInfo.getName());
     }
 }

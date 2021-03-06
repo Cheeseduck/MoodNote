@@ -17,13 +17,13 @@ import java.util.ArrayList;
 
 public class Fragment3 extends Fragment {
 
-    RecyclerView recyclerView;
-    MoodItemAdapter adapter;
+    private RecyclerView recyclerView;
+    private MoodItemAdapter adapter;
 
-    Context context;
+    private Context context;
 
-    MoodInfoDao moodInfoDao;
-    PostitDao postitDao;
+    private MoodInfoDao moodInfoDao;
+    private PostitDao postitDao;
 
     Fragment3(MoodInfoDao moodInfoDao, PostitDao postitDao) {
         this.moodInfoDao = moodInfoDao;
@@ -62,12 +62,12 @@ public class Fragment3 extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new MoodItemAdapter(context, moodInfoDao);
+        adapter = new MoodItemAdapter(context, postitDao, moodInfoDao);
 
-        ArrayList<Postit> postits = postitDao.selectAll();
+        ArrayList<MoodInfo> moods = moodInfoDao.selectAll();
 
-        for (Postit postit : postits) {
-            adapter.addItem(postit);
+        for (MoodInfo mood : moods) {
+            adapter.addItem(mood);
         }
 
         recyclerView.setAdapter(adapter);

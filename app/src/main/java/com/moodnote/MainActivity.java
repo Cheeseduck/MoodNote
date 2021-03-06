@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         postitDao = new PostitDao();
 
         fragment3 = new Fragment3(moodInfoDao, postitDao);
-        fragment4 = new Fragment4(moodInfoDao, postitDao);
 
         // test color
         moodInfoDao.insert(new MoodInfo("#90D5D8", "@drawable/clouds", "하늘하늘해"));
@@ -41,6 +40,6 @@ public class MainActivity extends AppCompatActivity {
         postitDao.insert(new Postit(LocalDateTime.now(), "안드로이드는 너무 어려워", "", 3));
         postitDao.insert(new Postit(LocalDateTime.now(), "크롬크롬 구글구글 크롬크롬", "", 1));
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment4).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment3).commit();
     }
 }

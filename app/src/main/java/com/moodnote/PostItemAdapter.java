@@ -33,9 +33,9 @@ public class PostItemAdapter extends RecyclerView.Adapter<PostItemAdapter.PostIt
 
     @Override
     public void onBindViewHolder(@NonNull PostItemViewHolder holder, int position) {
-        MoodInfo moodInfo = moodInfoDao.selectById(items.get(position).moodId);
+        MoodInfo moodInfo = moodInfoDao.selectById(items.get(position).getMoodId());
 
-        holder.contents.setText(items.get(position).contents);
+        holder.contents.setText(items.get(position).getContents());
         holder.contents.setBackground(new ColorDrawable(Color.parseColor(moodInfo.getColor())));
     }
 

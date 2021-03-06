@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public class Postit {
 
-    Long id;
-    LocalDateTime createDateTime;
-    String contents;
-    String picture;
-    Long moodId;
+    private Long id;
+    private LocalDateTime createDateTime;
+    private String contents;
+    private String picture;
+    private Long moodId;
 
     Postit(LocalDateTime createDateTime, String contents, String picture, long moodId) {
         this.createDateTime = createDateTime;

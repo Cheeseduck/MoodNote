@@ -1,5 +1,6 @@
 package com.moodnote;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,4 +21,6 @@ public class MoodInfoDao {
     public void update(MoodInfo moodInfo) {
         map.put(moodInfo.getId(), moodInfo);
     }
+
+    public ArrayList<MoodInfo> selectAll() { return new ArrayList<MoodInfo>(map.values()); }
 }
