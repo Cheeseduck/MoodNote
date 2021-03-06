@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class Postit {
 
+    Long id;
     LocalDateTime createDateTime;
     String contents;
     String picture;
@@ -46,5 +47,13 @@ public class Postit {
 
     public void setMoodId(Long moodId) {
         this.moodId = moodId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

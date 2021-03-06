@@ -1,5 +1,8 @@
 package com.moodnote;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +15,14 @@ import java.util.ArrayList;
 
 public class PostItemAdapter extends RecyclerView.Adapter<PostItemAdapter.PostItemViewHolder> {
 
-    private ArrayList<PostItem> items = new ArrayList<PostItem>();
+    private ArrayList<Postit> items = new ArrayList<Postit>();
+    private MoodInfoDao moodInfoDao;
+    private Context context;
+
+    PostItemAdapter(Context context, MoodInfoDao moodInfoDao) {
+        this.moodInfoDao = moodInfoDao;
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -23,7 +33,10 @@ public class PostItemAdapter extends RecyclerView.Adapter<PostItemAdapter.PostIt
 
     @Override
     public void onBindViewHolder(@NonNull PostItemViewHolder holder, int position) {
+        MoodInfo moodInfo = moodInfoDao.selectById(items.get(position).moodId);
+
         holder.contents.setText(items.get(position).contents);
+        holder.contents.setBackground(new ColorDrawable(Color.parseColor(moodInfo.getColor())));
     }
 
     @Override
@@ -41,5 +54,5 @@ public class PostItemAdapter extends RecyclerView.Adapter<PostItemAdapter.PostIt
         }
     }
 
-    public void addItem(PostItem item) { items.add(item); }
+    public void addItem(Postit item) { items.add(item); }
 }

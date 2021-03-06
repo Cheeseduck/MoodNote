@@ -12,11 +12,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class Fragment4 extends Fragment {
     RecyclerView recyclerView;
     PostItemAdapter adapter;
 
     Context context;
+
+    MoodInfoDao moodInfoDao;
+    PostitDao postitDao;
+
+    Fragment4(MoodInfoDao moodInfoDao, PostitDao postitDao) {
+        this.moodInfoDao = moodInfoDao;
+        this.postitDao = postitDao;
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -50,13 +60,13 @@ public class Fragment4 extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new PostItemAdapter();
+        adapter = new PostItemAdapter(context, moodInfoDao);
 
-        adapter.addItem(new PostItem("안녕 나는 신지민 하늘하늘한 기분이지 안녕녕안안뇽"));
-        adapter.addItem(new PostItem("주황주황주황"));
-        adapter.addItem(new PostItem("라면은 신라면 참깨라면도 먹고싶다"));
-        adapter.addItem(new PostItem("라면은 신라면 참깨라면도 먹고싶다"));
-        adapter.addItem(new PostItem("라면은 신라면 참깨라면도 먹고싶다"));
+        ArrayList<Postit> postits = postitDao.selectAll();
+
+        for (Postit postit : postits) {
+            adapter.addItem(postit);
+        }
 
         recyclerView.setAdapter(adapter);
     }

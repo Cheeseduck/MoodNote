@@ -1,12 +1,10 @@
 package com.moodnote;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Fragment3 extends Fragment {
 
@@ -25,9 +23,11 @@ public class Fragment3 extends Fragment {
     Context context;
 
     MoodInfoDao moodInfoDao;
+    PostitDao postitDao;
 
-    Fragment3(MoodInfoDao moodInfoDao) {
+    Fragment3(MoodInfoDao moodInfoDao, PostitDao postitDao) {
         this.moodInfoDao = moodInfoDao;
+        this.postitDao = postitDao;
     }
 
     @Override
@@ -45,7 +45,6 @@ public class Fragment3 extends Fragment {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,7 +56,6 @@ public class Fragment3 extends Fragment {
         return rootView;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initUI(ViewGroup rootView) {
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
@@ -66,12 +64,11 @@ public class Fragment3 extends Fragment {
 
         adapter = new MoodItemAdapter(context, moodInfoDao);
 
-        adapter.addItem(new Postit(LocalDateTime.now(), "하늘하늘하늘 하늘하늘하구나 날씨가 아주 하늘하늘해", "", 1));
-        adapter.addItem(new Postit(LocalDateTime.now(), "주황주황주황", "", 2));
-        adapter.addItem(new Postit(LocalDateTime.now(), "라면은 신라면 참깨라면도 먹고싶다", "", 3));
-        adapter.addItem(new Postit(LocalDateTime.now(), "나는 방금 떡볶이를 먹었지", "", 2));
-        adapter.addItem(new Postit(LocalDateTime.now(), "안드로이드는 너무 어려워", "", 3));
-        adapter.addItem(new Postit(LocalDateTime.now(), "크롬크롬 구글구글 크롬크롬", "", 1));
+        ArrayList<Postit> postits = postitDao.selectAll();
+
+        for (Postit postit : postits) {
+            adapter.addItem(postit);
+        }
 
         recyclerView.setAdapter(adapter);
     }
