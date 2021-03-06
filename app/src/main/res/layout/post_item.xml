@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    >
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/contents"
+        android:text="안녕 나는 신지민 하늘하늘한 기분이지 안녕녕안안뇽"
+        android:background="#90D5D8"
+        android:textAlignment="gravity"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="10dp"
+        />
+</androidx.cardview.widget.CardView>

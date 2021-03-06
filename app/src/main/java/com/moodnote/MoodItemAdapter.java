@@ -1,6 +1,8 @@
 package com.moodnote;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +16,14 @@ import java.util.ArrayList;
 
 public class MoodItemAdapter extends RecyclerView.Adapter<MoodItemAdapter.MoodItemViewHolder> {
 
-    private ArrayList<MoodItem> items = new ArrayList<MoodItem>();
+    private ArrayList<Postit> items = new ArrayList<Postit>();
+    private MoodInfoDao moodInfoDao;
+    private Context context;
 
+    MoodItemAdapter(Context context, MoodInfoDao moodInfoDao) {
+        this.moodInfoDao = moodInfoDao;
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -27,9 +35,14 @@ public class MoodItemAdapter extends RecyclerView.Adapter<MoodItemAdapter.MoodIt
     @Override
     public void onBindViewHolder(@NonNull MoodItemViewHolder holder, int position) {
 
-        holder.moodIcon.setImageResource(items.get(position).moodIcon);
+        MoodInfo moodInfo = moodInfoDao.selectById(items.get(position).moodId);
+        String iconStr = moodInfo.getIcon() + "_39";
+        int icon = context.getResources().getIdentifier(iconStr, "drawable", context.getPackageName());
+
+        holder.moodIcon.setImageResource(icon);
         holder.contents.setText(items.get(position).contents);
-        holder.mood.setText(items.get(position).mood);
+        holder.contents.setBackground(new ColorDrawable(Color.parseColor(moodInfo.getColor())));
+        holder.mood.setText(moodInfo.getName());
     }
 
     @Override
@@ -52,7 +65,7 @@ public class MoodItemAdapter extends RecyclerView.Adapter<MoodItemAdapter.MoodIt
         }
     }
 
-    public void addItem(MoodItem item) { items.add(item); }
+    public void addItem(Postit item) { items.add(item); }
 }
 
 
