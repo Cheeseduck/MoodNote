@@ -76,7 +76,7 @@ public class Fragment4 extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new PostItemAdapter(context, moodInfoDao);
+        adapter = new PostItemAdapter(context, moodInfoDao, postitDao);
 
         try {
             ArrayList<Postit> postits = postitDao.selectByMood(moodInfo.getId());
