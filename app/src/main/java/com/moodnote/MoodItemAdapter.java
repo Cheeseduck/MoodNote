@@ -1,14 +1,21 @@
 package com.moodnote;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +32,8 @@ public class MoodItemAdapter extends RecyclerView.Adapter<MoodItemAdapter.MoodIt
     private PostitDao postitDao;
     private MoodInfoDao moodInfoDao;
     private Context context;
+
+    private PopupWindow popupWindow;
 
     MoodItemAdapter(Context context, PostitDao postitDao, MoodInfoDao moodInfoDao) {
         this.postitDao = postitDao;
@@ -81,6 +90,16 @@ public class MoodItemAdapter extends RecyclerView.Adapter<MoodItemAdapter.MoodIt
                     Fragment fragment = new Fragment4(moodInfoDao, postitDao);
                     fragment.setArguments(bundle);
                     replaceFragment(fragment);
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    long moodId = (long) mood.getTag();
+                    MoodModifierPopUp moodModifierPopUp = new MoodModifierPopUp(moodInfoDao.selectById(moodId));
+                    moodModifierPopUp.showPopupWindow(v);
+                    return true;
                 }
             });
         }
